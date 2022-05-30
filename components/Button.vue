@@ -1,5 +1,7 @@
 <template>
-    <button class="btn" :class="computedClasses"><slot></slot></button>
+    <button @click="click" class="btn" :class="computedClasses">
+        <slot></slot>
+    </button>
 </template>
 
 <script>
@@ -23,6 +25,9 @@ export default {
                 },
             ];
         },
+    },
+    methods: {
+        click() {},
     },
 };
 </script>
