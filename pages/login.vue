@@ -18,16 +18,16 @@
 
         {{ slider }} -->
         <div class="circle circle-top">
-            <h2>Добро пожаловать в Quizza!</h2>
+            <h2>Мы рады видеть вас снова!</h2>
         </div>
         <div class="form-wrapper">
             <h1>Вход</h1>
             <form action="">
                 <Input :placeholder="'Почта'" v-model:text="email"></Input>
                 <Input :placeholder="'Пароль'" v-model:text="password"></Input>
-                <Button @click="lala">Зарегистрироваться</Button>
+                <Button @click="lala">Войти</Button>
             </form>
-            <NuxtLink to="/login">Войти</NuxtLink>
+            <NuxtLink to="/signup">Зарегистрироваться</NuxtLink>
         </div>
         <div class="circle circle-bottom">
             <p class="help-text">Войти с помощью</p>
@@ -151,7 +151,7 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    & NuxtLink {
+    & a {
         color: white;
         font-size: 20px;
         font-weight: 300;
@@ -225,7 +225,7 @@ form {
     h1 {
         font-size: 36px;
     }
-    NuxtLink {
+    a {
         font-size: 18px;
     }
     Button {
