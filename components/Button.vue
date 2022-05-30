@@ -1,5 +1,7 @@
 <template>
-    <button class="btn" :class="computedClasses"><slot></slot></button>
+    <button @click="click" class="btn" :class="computedClasses">
+        <slot></slot>
+    </button>
 </template>
 
 <script>
@@ -14,6 +16,9 @@ export default {
         computedClasses() {
             return [`btn_appearance_${this.appearance}`];
         },
+    },
+    methods: {
+        click() {},
     },
 };
 </script>

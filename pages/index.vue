@@ -10,7 +10,7 @@
             <h3>Кнопки</h3>
             <div class="buttons__wrapper">
                 <Button>Кнопка</Button>
-                <Button appearance="orange">Кнопка</Button>
+                <Button @click="lala" appearance="orange">Кнопка</Button>
                 <Button appearance="blank">Кнопка</Button>
                 <Button appearance="selected">Кнопка</Button>
                 <Button appearance="success">Кнопка</Button>
@@ -25,6 +25,11 @@ export default {
         return {
             rounds: 15,
         };
+    },
+    methods: {
+        lala() {
+            console.log("Ваня красавчик");
+        },
     },
 };
 </script>
