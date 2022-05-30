@@ -16,6 +16,11 @@
                 <Button appearance="success">Кнопка</Button>
             </div>
         </div>
+        <div class="slider-block">
+            <Slider v-model="slider" :min="0" :max="100" />
+        </div>
+
+        {{ slider }}
     </div>
 </template>
 
@@ -24,6 +29,7 @@ export default {
     data() {
         return {
             rounds: 15,
+            slider: 11,
         };
     },
     methods: {
@@ -35,6 +41,9 @@ export default {
 </script>
 
 <style lang="scss">
+.slider-block {
+    margin: 30px;
+}
 .buttons {
     padding: 10px;
     & h3 {
@@ -44,7 +53,7 @@ export default {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        align-items: start;
+        align-items: flex-start;
     }
 }
 </style>
