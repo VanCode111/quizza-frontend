@@ -23,8 +23,16 @@
         <div class="form-wrapper">
             <h1>Вход</h1>
             <form action="">
-                <Input :placeholder="'Почта'" v-model:text="email"></Input>
-                <Input :placeholder="'Пароль'" v-model:text="password"></Input>
+                <Input
+                    :placeholder="'Почта'"
+                    v-model:text="email"
+                    stretched
+                ></Input>
+                <Input
+                    :placeholder="'Пароль'"
+                    v-model:text="password"
+                    stretched
+                ></Input>
                 <Button @click="lala">Войти</Button>
             </form>
             <a href="">Зарегистрироваться</a>
@@ -135,10 +143,13 @@ h2 {
 
 form {
     display: flex;
+
+    width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-bottom: 15px;
+    max-width: 547px;
     & button {
         margin-top: 25px;
     }

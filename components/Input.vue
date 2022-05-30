@@ -45,7 +45,7 @@ export default {
     padding: 15px 30px;
     border-radius: 100px;
     border: none;
-    width: 547px;
+    max-width: 547px;
     border-bottom: 6px solid;
     font-size: 22px;
     font-weight: 500;
