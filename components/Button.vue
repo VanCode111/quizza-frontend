@@ -9,10 +9,19 @@ export default {
             type: String,
             default: "error",
         },
+        stretched: {
+            type: Boolean,
+            default: false,
+        },
     },
     computed: {
         computedClasses() {
-            return [`btn_appearance_${this.appearance}`];
+            return [
+                `btn_appearance_${this.appearance}`,
+                {
+                    stretched: this.stretched,
+                },
+            ];
         },
     },
 };
@@ -30,6 +39,11 @@ export default {
     background-color: #ea425b;
     color: #fff;
     border-bottom-color: #b5283e;
+    &:active {
+        transform: translateY(3px);
+        border-bottom-width: 3px;
+        margin-bottom: 3px;
+    }
     &_appearance {
         &_orange {
             background-color: #f4802e;
@@ -48,6 +62,9 @@ export default {
             background-color: #28d239;
             border-bottom-color: #1d9c2a;
         }
+    }
+    &.stretched {
+        width: 100%;
     }
 }
 </style>
