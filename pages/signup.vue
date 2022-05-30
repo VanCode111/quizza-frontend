@@ -23,19 +23,11 @@
         <div class="form-wrapper">
             <h1>Вход</h1>
             <form action="">
-                <Input
-                    :placeholder="'Почта'"
-                    v-model:text="email"
-                    stretched
-                ></Input>
-                <Input
-                    :placeholder="'Пароль'"
-                    v-model:text="password"
-                    stretched
-                ></Input>
+                <Input :placeholder="'Почта'" v-model:text="email"></Input>
+                <Input :placeholder="'Пароль'" v-model:text="password"></Input>
                 <Button @click="lala">Войти</Button>
             </form>
-            <a href="">Зарегистрироваться</a>
+            <NuxtLink to="login">Войти</NuxtLink>
         </div>
         <div class="circle circle-bottom">
             <p class="help-text">Войти с помощью</p>
@@ -143,13 +135,10 @@ h2 {
 
 form {
     display: flex;
-
-    width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-bottom: 15px;
-    max-width: 547px;
     & button {
         margin-top: 25px;
     }
@@ -162,7 +151,7 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    & a {
+    & NuxtLink {
         color: white;
         font-size: 20px;
         font-weight: 300;
@@ -236,7 +225,7 @@ form {
     h1 {
         font-size: 36px;
     }
-    a {
+    NuxtLink {
         font-size: 18px;
     }
     Button {
