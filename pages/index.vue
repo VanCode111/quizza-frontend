@@ -5,7 +5,14 @@
             <h2>Пригласите своих друзей вместе играть в квиз</h2>
         </div>
         <div class="circle-middle">
-            <div class="middle-wrapper"></div>
+            <div class="middle-wrapper">
+                <div class="versus">
+                    <div class="ava"></div>
+                    <p class="vs-letters">VS</p>
+                    <div class="ava"></div>
+                </div>
+                <Button>Копирование ссылки</Button>
+            </div>
         </div>
         <div class="wrapper">
             <div class="gamemode">
