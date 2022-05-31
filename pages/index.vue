@@ -1,8 +1,10 @@
 <template>
     <div class="background-wrap">
         <div class="circle circle-top">
-            <h1>Игра с друзьями</h1>
-            <h2>Пригласите своих друзей вместе играть в квиз</h2>
+            <h1 class="circle-heading">Игра с друзьями</h1>
+            <h2 class="circle-subheading">
+                Пригласите своих друзей вместе играть в квиз
+            </h2>
         </div>
         <div class="circle-middle">
             <div class="middle-wrapper">
@@ -11,15 +13,15 @@
                     <p class="vs-letters">VS</p>
                     <div class="ava"></div>
                 </div>
-                <Button>Копирование ссылки</Button>
+                <Button class="link-btn">Копирование ссылки</Button>
             </div>
         </div>
         <div class="wrapper">
             <div class="gamemode">
                 <p class="text">Игровой режим</p>
                 <div>
-                    <Button>Режим 1</Button>
-                    <Button appearance="orange">Режим 2</Button>
+                    <Button class="modebtn">Режим 1</Button>
+                    <Button class="modebtn" appearance="orange">Режим 2</Button>
                 </div>
             </div>
             <div class="rounds">
@@ -91,8 +93,40 @@ export default {
     bottom: 150px;
     width: 100vw;
     display: flex;
-    gap: 18vw;
+    gap: 12vw;
     justify-content: center;
+}
+
+@media (max-width: 1400px) {
+    .wrapper {
+        gap: 7vw;
+    }
+}
+
+@media (max-width: 1250px) {
+    .wrapper {
+        gap: 3vw;
+    }
+}
+
+@media (max-width: 1200px) {
+    .wrapper {
+        // flex-direction: column;
+        bottom: 130px;
+    }
+    .text {
+        font-size: 22px;
+    }
+    h1 {
+        font-size: 32px;
+    }
+    h2 {
+        font-size: 20px;
+    }
+    .modebtn {
+        padding: 16px 20px;
+        width: 167px;
+    }
 }
 
 .slider-container {
@@ -106,8 +140,6 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    & .text {
-    }
 }
 
 .rounds {
@@ -158,7 +190,7 @@ body {
     overflow: hidden;
 }
 
-h1 {
+h1.circle-heading {
     font-weight: bold;
     font-size: 44px;
     max-width: 500px;
@@ -168,18 +200,38 @@ h1 {
     top: 285px + 50px;
 }
 
+.ava {
+    border-radius: 50%;
+    width: 160px;
+    height: 160px;
+    background: black;
+}
+
+.versus {
+    display: flex;
+    max-width: 530px;
+    min-width: 340px;
+    gap: 70px;
+    margin-bottom: 35px;
+    align-items: center;
+}
+
 .circle-middle {
     background: #00214e;
     width: 100vw;
-    max-height: 1240px;
+    max-height: 1340px;
     height: 100vw;
     border-radius: 100%;
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
+    & Button {
+        width: 416px;
+        margin: 0 auto;
+    }
 }
 
-h2 {
+h2.circle-subheading {
     position: absolute;
     top: 285px + 50px + 66px;
     font-weight: 400;
@@ -195,12 +247,14 @@ h2 {
     width: 100vw;
 }
 
-@media (max-width: 1000px) {
-    .circle {
-        height: 370px;
-    }
+.vs-letters {
+    font-size: 44px;
+    font-weight: bold;
+    color: #ea425b;
+}
 
-    h1 {
+@media (max-width: 1000px) {
+    .vs-letters {
         font-size: 36px;
     }
     a {
@@ -214,6 +268,107 @@ h2 {
     }
     .icons-wrapper {
         top: 100px;
+    }
+}
+
+@media (max-width: 1125px) {
+    .wrapper {
+        flex-direction: column;
+        justify-content: center;
+        & .text {
+            text-align: left;
+            margin-bottom: 0;
+        }
+        padding-left: 35px;
+        padding-right: 35px;
+        gap: 0;
+    }
+    .gamemode {
+        margin-bottom: 25px;
+        & .text {
+            margin-bottom: 25px;
+        }
+    }
+    .rounds {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 25px;
+    }
+
+    .ava {
+        width: 120px;
+        height: 120px;
+    }
+    .versus {
+        gap: 30px;
+        justify-content: center;
+    }
+    .wrapper {
+        bottom: 90px;
+    }
+}
+
+@media (max-width: 800px) {
+    .gametime {
+        padding-right: 35px;
+    }
+    //gametime padding
+}
+
+@media (max-width: 1250px) {
+    .circle-top {
+        transform: translate(-50%, -65%);
+        & h1 {
+            top: 380px;
+        }
+        & h2 {
+            top: 380px + 70px;
+        }
+    }
+}
+
+@media (max-width: 440px) {
+    .wrapper {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .gametime {
+        padding-right: 10px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .wrapper {
+        bottom: 50px;
+    }
+
+    .circle-middle Button {
+        width: 320px;
+    }
+}
+@media (max-width: 1125px) {
+    .circle-top {
+        height: 370px;
+        width: 428px;
+        transform: translate(-50%, -50%);
+    }
+    h1.circle-heading {
+        font-size: 36px;
+        top: 220px;
+    }
+    h2.circle-subheading {
+        font-size: 20px;
+        top: 220px + 50px;
+        width: 345px;
+    }
+    .circle-middle {
+        border-radius: 0;
+        transform: translate(0, 0);
+        top: 0;
+        left: 0;
+        height: 58vh;
+        border-bottom-right-radius: 50%;
+        border-bottom-left-radius: 50%;
     }
 }
 </style>
