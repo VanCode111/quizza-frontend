@@ -64,6 +64,16 @@ export default {
 </script>
 
 <style lang="scss">
+.middle-wrapper {
+    display: flex;
+    position: absolute;
+    bottom: 100px;
+    justify-content: center;
+    flex-direction: column;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .arrows {
     height: 62px;
 }
