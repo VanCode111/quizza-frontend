@@ -23,8 +23,15 @@
             <div class="gametime">
                 <div class="texts">
                     <p class="text">Время игры</p>
-                    <p class="text">{{}}</p>
-                    <Slider></Slider>
+                    <p class="text">{{ slider }} мин</p>
+                </div>
+                <div class="slider-container">
+                    <Slider
+                        class="slider"
+                        :modelValue="slider"
+                        :min="1"
+                        :max="20"
+                    ></Slider>
                 </div>
             </div>
         </div>
@@ -48,22 +55,45 @@ export default {
 </script>
 
 <style lang="scss">
+.arrows {
+    height: 62px;
+}
+
+.gametime {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 400px; //в медиа тут уменьшить
+}
+
 .wrapper {
     position: absolute;
     bottom: 150px;
     width: 100vw;
     display: flex;
-    justify-content: space-evenly;
+    gap: 18vw;
+    justify-content: center;
+}
+
+.slider-container {
+    height: 62px;
+    width: 100%;
+}
+
+.texts {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    & .text {
+    }
 }
 
 .rounds {
-    & p {
-        margin-bottom: 40px;
-    }
-    & div {
-        // display: flex;
-        // justify-content: center;
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
 }
 
 .gamemode {
@@ -74,6 +104,7 @@ export default {
 }
 
 .text {
+    text-align: center;
     font-size: 24px;
     font-weight: 500;
     margin-bottom: 27px;
