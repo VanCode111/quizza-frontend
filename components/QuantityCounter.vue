@@ -58,6 +58,7 @@ export default {
 
 <style lang="scss">
 .arrows {
+    height: 35px;
     width: 100px;
     display: flex;
     justify-content: space-between;

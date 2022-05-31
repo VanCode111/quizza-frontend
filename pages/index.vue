@@ -8,12 +8,17 @@
         <div class="wrapper">
             <div class="gamemode">
                 <p class="text">Игровой режим</p>
-                <Button>Режим 1</Button>
-                <Button appearance="orange">Режим 2</Button>
+                <div>
+                    <Button>Режим 1</Button>
+                    <Button appearance="orange">Режим 2</Button>
+                </div>
             </div>
             <div class="rounds">
                 <p class="text">Количество раундов</p>
-                <QuantityCounter></QuantityCounter>
+                <QuantityCounter
+                    :rounds="rounds"
+                    class="arrows"
+                ></QuantityCounter>
             </div>
             <div class="gametime">
                 <div class="texts">
@@ -43,6 +48,46 @@ export default {
 </script>
 
 <style lang="scss">
+.wrapper {
+    position: absolute;
+    bottom: 150px;
+    width: 100vw;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.rounds {
+    & p {
+        margin-bottom: 40px;
+    }
+    & div {
+        // display: flex;
+        // justify-content: center;
+    }
+}
+
+.gamemode {
+    & div {
+        display: flex;
+        gap: 25px;
+    }
+}
+
+.text {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 27px;
+}
+
+@media (max-width: 900px) {
+    .wrapper {
+        bottom: 130px;
+    }
+    .text {
+        font-size: 22px;
+    }
+}
+
 .circle-top {
     z-index: 5;
     position: absolute;
@@ -71,6 +116,17 @@ h1 {
     top: 285px + 50px;
 }
 
+.circle-middle {
+    background: #00214e;
+    width: 100vw;
+    max-height: 1240px;
+    height: 100vw;
+    border-radius: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 h2 {
     position: absolute;
     top: 285px + 50px + 66px;
@@ -85,17 +141,6 @@ h2 {
     background-color: #ffbd00;
     height: 100vh;
     width: 100vw;
-}
-
-.circle-middle {
-    background: #00214e;
-    width: 100vw;
-    max-height: 1440px;
-    height: 100vw;
-    border-radius: 100%;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 @media (max-width: 1000px) {
