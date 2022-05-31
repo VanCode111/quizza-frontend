@@ -34,6 +34,7 @@ export default {
 
 <style lang="scss">
 .btn {
+    white-space: nowrap;
     padding: 16px 49px;
     border-radius: 100px;
     border: none;

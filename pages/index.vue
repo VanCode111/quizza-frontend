@@ -4,7 +4,9 @@
             <h1>Игра с друзьями</h1>
             <h2>Пригласите своих друзей вместе играть в квиз</h2>
         </div>
-        <div class="circle-middle"></div>
+        <div class="circle-middle">
+            <div class="middle-wrapper"></div>
+        </div>
         <div class="wrapper">
             <div class="gamemode">
                 <p class="text">Игровой режим</p>
@@ -16,7 +18,7 @@
             <div class="rounds">
                 <p class="text">Количество раундов</p>
                 <QuantityCounter
-                    :rounds="rounds"
+                    v-model:rounds="rounds"
                     class="arrows"
                 ></QuantityCounter>
             </div>
@@ -28,7 +30,7 @@
                 <div class="slider-container">
                     <Slider
                         class="slider"
-                        :modelValue="slider"
+                        v-model:modelValue="slider"
                         :min="1"
                         :max="20"
                     ></Slider>
@@ -79,6 +81,8 @@ export default {
 .slider-container {
     height: 62px;
     width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .texts {
