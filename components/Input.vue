@@ -40,7 +40,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .input {
     padding: 15px 30px;
     border-radius: 100px;

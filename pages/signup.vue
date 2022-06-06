@@ -103,7 +103,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-body {
+.body {
     overflow: hidden;
 }
 
@@ -175,6 +175,7 @@ form {
 .circle-top {
     position: absolute;
     transform: translateY(-50%);
+    left: 0;
     height: 470px;
     width: 100vw;
     background: #ea425c;
@@ -236,6 +237,12 @@ form {
     }
     .icons-wrapper {
         top: 100px;
+    }
+}
+
+@media (max-width: 1250px) {
+    .circle-top h2 {
+        bottom: 55px;
     }
 }
 </style>
