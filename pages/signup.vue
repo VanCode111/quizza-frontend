@@ -32,7 +32,7 @@
         <div class="circle circle-bottom">
             <p class="help-text">Войти с помощью</p>
             <div class="icons-wrapper">
-                <button>
+                <button class="btn-auth-google">
                     <svg
                         width="60"
                         height="60"
@@ -59,7 +59,7 @@
                         />
                     </svg>
                 </button>
-                <button>
+                <button class="btn-auth-vk" @click="authVk">
                     <svg
                         width="60"
                         height="60"
@@ -87,6 +87,7 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {
@@ -98,6 +99,27 @@ export default {
         lala() {
             console.log("Ваня красавчик");
         },
+        authVk() {
+            let url = 'https://oauth.vk.com/authorize?client_id=8165962&redirect_uri=http://localhost:3000/vk-oauth-callback&scope=12&display=popup&response_type=token';
+            let width = 860;
+            let height = 500;
+            let left = (screen.width / 2) - (width / 2);
+            let top = (screen.height / 2) - (height / 2);
+            let windowOptions = `menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=${width}, height=${height}, top=${top}, left=${left}`;
+            let type = 'auth';
+            let subPage = window.open(url, type, windowOptions);
+            console.log(subPage);
+            window.addEventListener('OAuthCallback', (e) => {
+                let detail = e.detail.substr(1, e.detail.length);
+                let params = detail.split("&");
+                let paramsObj = {};
+                for (let i = 0; i < params.length; i++) {
+                    let keyValue = params[i].split("=");
+                    paramsObj[keyValue[0]] = keyValue[1];
+                }
+                console.log(paramsObj);
+            })
+        }
     },
 };
 </script>
