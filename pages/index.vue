@@ -4,6 +4,7 @@
             <h1>Игра с друзьями</h1>
             <h2>Пригласите своих друзей вместе играть в квиз</h2>
         </div>
+
         <div class="circle-middle">
             <div class="middle-wrapper">
                 <div class="versus">
@@ -11,6 +12,7 @@
                     <p class="vs-letters">VS</p>
                     <div class="ava"></div>
                 </div>
+                <Avatar />
                 <Button>Копирование ссылки</Button>
             </div>
         </div>

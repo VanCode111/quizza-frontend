@@ -87,12 +87,22 @@
 </template>
 
 <script>
+import Anonim from "../assets/img/anonim.svg";
+import BurgerMenuIcon from "../components/Icons/BurgerMenuIcon.vue";
+import BaseIcon from "../components/Icons/BaseIcon.vue";
+import AnonimIcon from "../components/Icons/AnonimIcon.vue";
+
 export default {
     data() {
         return {
             rounds: 15,
             slider: 11,
         };
+    },
+    components: {
+        BurgerMenuIcon,
+        AnonimIcon,
+        BaseIcon,
     },
     methods: {
         lala() {
