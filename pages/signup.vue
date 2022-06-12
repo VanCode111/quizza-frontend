@@ -22,17 +22,17 @@
         </div>
         <div class="form-wrapper">
             <h1>Вход</h1>
-            <form action="">
+            <form action="" @submit.prevent>
                 <Input :placeholder="'Почта'" v-model:text="email"></Input>
-                <Input :placeholder="'Пароль'" v-model:text="password"></Input>
-                <Button @click="lala">Зарегистрироваться</Button>
+                <Input :placeholder="'Пароль'" type="password" v-model:text="password"></Input>
+                <Button @click="signUp">Зарегистрироваться</Button>
             </form>
             <NuxtLink to="/login">Войти</NuxtLink>
         </div>
         <div class="circle circle-bottom">
             <p class="help-text">Войти с помощью</p>
             <div class="icons-wrapper">
-                <button>
+                <button @click="logInWithGoogle">
                     <svg
                         width="60"
                         height="60"
@@ -92,11 +92,20 @@ import BurgerMenuIcon from "../components/Icons/BurgerMenuIcon.vue";
 import BaseIcon from "../components/Icons/BaseIcon.vue";
 import AnonimIcon from "../components/Icons/AnonimIcon.vue";
 
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup
+} from "firebase/auth";
+
 export default {
     data() {
         return {
             rounds: 15,
             slider: 11,
+            email: '',
+            password: '',
         };
     },
     components: {
@@ -105,9 +114,28 @@ export default {
         BaseIcon,
     },
     methods: {
-        lala() {
-            console.log("Ваня красавчик");
+        async signUp() {
+            const auth = getAuth();
+            createUserWithEmailAndPassword(auth, this.email, this.password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                console.log(user);
+            })
+            .catch(error => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            })
         },
+        async logInWithGoogle() {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(getAuth(), provider)
+            .then(result => {
+                console.log(result.user)
+            })
+            .catch(error => {
+
+            })
+        }
     },
 };
 </script>
