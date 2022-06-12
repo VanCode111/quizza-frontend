@@ -1,22 +1,5 @@
 <template>
     <div class="background-wrap">
-        <!-- <QuantityCounter v-model:rounds="rounds"></QuantityCounter>
-
-        <div class="buttons">
-            <h3>Кнопки</h3>
-            <div class="buttons__wrapper">
-                <Button>Кнопка</Button>
-                <Button @click="lala" appearance="orange">Кнопка</Button>
-                <Button appearance="blank">Кнопка</Button>
-                <Button appearance="selected">Кнопка</Button>
-                <Button appearance="success">Кнопка</Button>
-            </div>
-        </div>
-        <div class="slider-block">
-            <Slider v-model="slider" :min="0" :max="100" />
-        </div>
-
-        {{ slider }} -->
         <div class="circle circle-top">
             <h2>Мы рады видеть вас снова!</h2>
         </div>
@@ -102,7 +85,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 body {
     overflow: hidden;
 }

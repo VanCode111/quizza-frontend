@@ -4,26 +4,53 @@
             <div class="left-side">
                 <div class="left-side__content">
                     <div class="top-block">
-                        <p class="timer">01:11</p>
-                        <p class="question">Вопрос 1/10</p>
+                        <p class="timer">
+                            <BaseIcon viewBox="0 0 51 85" width="51" height="85"
+                                ><LogoIcon></LogoIcon></BaseIcon
+                            >{{ time }}
+                        </p>
+                        <p class="question">
+                            Вопрос {{ numberOfQuestion }}/{{
+                                amountOfQuestions
+                            }}
+                        </p>
                         <p class="desc">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit ipsum dolor sit? Lorem ipsum dolor sit amet,
-                            consectetur adipiscing elit ipsum dolor sit?Lorem
-                            ipsum dolor sit amet, consectetur adipiscing elit
-                            ipsum dolor sit?
+                            {{ question.description }}
                         </p>
                     </div>
-                    <img
-                        class="img-question"
-                        src="../assets/img/salad.png"
-                        alt="img"
-                    />
+                    <img class="img-question" :src="question.img" alt="img" />
                 </div>
             </div>
             <div class="right-side">
                 <div class="right-side__content">
-                    <div class="players"></div>
+                    <div class="top_block">
+                        <div class="burger-menu">
+                            <IconButton
+                                ><BaseIcon
+                                    width="78"
+                                    height="60"
+                                    viewBox="0 0 78 60"
+                                    ><BurgerMenuIcon /></BaseIcon
+                            ></IconButton>
+                        </div>
+                        <div class="players">
+                            <Player
+                                name="Иван"
+                                score="10"
+                                count="10"
+                                img="../assets/img/ivan.png"
+                            />
+                            <p class="vs">VS</p>
+                            <Player
+                                name="Иван"
+                                score="20"
+                                count="1000"
+                                color="green"
+                                img="../assets/img/ivan.png"
+                            />
+                        </div>
+                    </div>
+
                     <div class="answs">
                         <Button
                             v-for="key in answs"
@@ -42,10 +69,28 @@
 </template>
 
 <script>
+import BaseIcon from "../components/icons/BaseIcon";
+import LogoIcon from "../components/icons/LogoIcon.vue";
+import BurgerMenuIcon from "../components/icons/BurgerMenuIcon.vue";
+
 export default {
+    components: {
+        BaseIcon,
+        BurgerMenuIcon,
+        LogoIcon,
+    },
     data() {
         return {
+            question: {
+                img: "../assets/img/salad.png",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit? Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit?Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit?",
+            },
             selected: 2,
+            time: "01:11",
+            numberOfQuestion: 1,
+            amountOfQuestions: 10,
+
             answs: [
                 {
                     id: 1,
@@ -70,6 +115,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.burger-menu {
+    display: flex;
+    flex-direction: row-reverse;
+}
 .top-block {
     display: flex;
     flex-direction: column;
@@ -87,6 +136,10 @@ export default {
 .img-question {
     width: 100%;
 }
+.players {
+    display: flex;
+    justify-content: space-between;
+}
 .desc {
     font-weight: 600;
     font-size: 28px;
@@ -97,11 +150,19 @@ export default {
     margin-top: 52px;
     margin-bottom: 50px;
 }
+.top_block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 .timer {
     font-weight: 600;
     font-size: 50px;
     line-height: 61px;
     margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 26px;
     color: #ffbd00;
 }
 .question {
@@ -121,7 +182,6 @@ export default {
 }
 .game__wrapper {
     display: flex;
-    grid-template-columns: 1fr 1fr;
     width: 100%;
     height: 100vh;
     flex: 1 1 0px;
@@ -132,12 +192,24 @@ export default {
     width: 100%;
     flex-grow: 1;
     flex-basis: 100%;
-    padding: 50px;
+    padding: 30px 89px;
     &__content {
         display: grid;
+        gap: 5vh;
         grid-template-rows: 1fr 1fr;
-        height: calc(100vh - 100px);
+        height: calc(100vh - 60px);
     }
+}
+.vs {
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 54px;
+    margin-top: 20px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #ea425b;
 }
 .lll {
     background: black;

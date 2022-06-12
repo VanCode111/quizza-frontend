@@ -1,6 +1,13 @@
 <template>
     <div class="avatar" :class="coputedClasses">
-        <img class="img" :src="src" alt="avatar" />
+        <div class="badge">
+            <slot name="badge"></slot>
+        </div>
+
+        <div class="avatar__rounded">
+            <img v-if="src" class="img" :src="src" alt="avatar" />
+            <div v-else class="anonim"></div>
+        </div>
     </div>
 </template>
 
@@ -10,7 +17,6 @@ export default {
     props: {
         src: {
             type: String,
-            default: anonim,
         },
     },
     computed: {
@@ -27,6 +33,14 @@ export default {
 
 <style lang="scss">
 .avatar {
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    left: 70%;
+}
+.avatar__rounded {
     width: 118px;
     height: 118px;
     overflow: hidden;
@@ -34,6 +48,11 @@ export default {
     & .img {
         width: 100%;
         height: 100%;
+    }
+    & .anonim {
+        width: 100%;
+        height: 100%;
+        background: black;
     }
 }
 </style>

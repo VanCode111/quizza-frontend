@@ -32,13 +32,15 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .btn {
     white-space: nowrap;
     padding: 16px 49px;
     border-radius: 100px;
     border: none;
     border-bottom: 6px solid;
+    border-right: 1px;
+    border-left: 1px;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -56,9 +58,10 @@ export default {
             border-bottom-color: rgba(181, 40, 62, 0.5);
         }
         &_blank {
+            border-top: 1px solid;
             background-color: #fff8e2;
             color: #00214e;
-            border-bottom-color: #ffbd00;
+            border-color: #ffbd00;
         }
         &_selected {
             background-color: #ffbd00;

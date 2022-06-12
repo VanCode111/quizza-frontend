@@ -54,7 +54,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .slider-container {
     z-index: 5;
     &.stretched {
