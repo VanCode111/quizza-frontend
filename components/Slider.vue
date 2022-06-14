@@ -106,6 +106,8 @@ export default {
     background-color: transparent;
     box-sizing: border-box;
     -webkit-appearance: none;
+    position: absolute;
+    top: -3px;
 
     &::-webkit-slider-thumb {
         box-sizing: border-box;

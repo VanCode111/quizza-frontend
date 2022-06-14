@@ -1,75 +1,122 @@
 <template>
-    <div class="background-wrap">
-        <div class="circle circle-top">
-            <h1 class="circle-heading">Игра с друзьями</h1>
-            <h2 class="circle-subheading">
-                Пригласите своих друзей вместе играть в квиз
-            </h2>
-        </div>
-
-        <div class="circle-middle">
-            <div class="middle-wrapper">
-                <div class="versus">
-                    <div class="ava"></div>
-                    <p class="vs-letters">VS</p>
-                    <div class="ava"></div>
-                </div>
-                <Button class="link-btn">Копирование ссылки</Button>
-            </div>
-        </div>
-        <div class="wrapper">
+    <div class="wrapper">
+      <h1 class="circle-heading">Игра с друзьями</h1>
+      <h2>Пригласите своих друзей вместе играть в квиз</h2>
+    <v-container class="bg-surface-variant">
+      <v-row no-gutters>
+        <v-col cols="6">
             <div class="gamemode">
-                <p class="text">Игровой режим</p>
-                <div>
-                    <Button class="modebtn">Режим 1</Button>
-                    <Button class="modebtn" appearance="orange">Режим 2</Button>
-                </div>
+              <p class="text">Игровой режим</p>
+              <div>
+                  <Button class="modebtn">Режим 1</Button>
+                  <Button class="modebtn" appearance="orange">Режим 2</Button>
+              </div>
             </div>
-            <div class="rounds">
-                <p class="text">Количество раундов</p>
-                <QuantityCounter
-                    v-model:rounds="rounds"
-                    class="arrows"
-                ></QuantityCounter>
-            </div>
+        </v-col>
+        <v-col>
             <div class="gametime">
                 <div class="texts">
-                    <p class="text">Время игры</p>
-                    <p class="text">{{ slider }} мин</p>
+                    <p class="text">Количество раундов</p>
+                    <p class="text">{{ rounds }}</p>
                 </div>
                 <div class="slider-container">
                     <Slider
                         class="slider"
-                        v-model:modelValue="slider"
-                        :min="1"
+                        v-model:modelValue="rounds"
+                        :min="3"
                         :max="20"
                     ></Slider>
                 </div>
             </div>
-        </div>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container class="bg-surface-variant">
+      <v-row no-gutters>
+        <v-col
+          cols="12"
+          sm="6"
+        >
+          <div class="createRoom">
+            <Button @click="createLink" class="link-btn">Создать комнату</Button>
+            <div class="createRoom__link" title="Скопировать" v-if="roomID" @click="copyLink">Ссылка: {{ roomID }}</div>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          sm="6"
+        >
+            <div class="joinRoom">
+                <Input :placeholder="'Ссылка комнаты'" v-model:text="roomLink"></Input>
+                <Button @click="joinRoom(roomLink)">Присоединиться</Button>
+            </div>
+        </v-col>
+      </v-row>
+    </v-container>
     </div>
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid';
+
 export default {
     data() {
         return {
             rounds: 15,
             slider: 11,
+            roomLink: null,
+            roomID: null
         };
+    },
+    mounted() {
+      this.socket = this.$nuxtSocket({
+        name: 'main',
+      })
+      /* Listen for events: */
+      this.socket
+      .on('startGame', (msg, cb) => {
+        console.log(msg, cb);
+      })
     },
     methods: {
         lala() {
             console.log("Ваня красавчик");
+        },
+        createLink() {
+          let roomID = uuidv4();
+          this.roomID = roomID;
+          this.joinRoom(roomID);
+        },
+        copyLink() {
+          navigator.clipboard.writeText(this.roomID);
+          this.joinRoom(this.roomID);
+        },
+        async joinRoom(roomID) {
+          if (roomID) {
+            let userID = uuidv4();
+            this.messageRxd = await this.socket.emitP('joinGameRoom', { userID, roomID });
+          }
         },
     },
 };
 </script>
 
 <style lang="scss" scoped>
+.createRoom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+h2 {
+  text-align: center;
+  max-width: 50%;
+  margin: 0 auto;
+  color: #fff;
+}
 .middle-wrapper {
     display: flex;
-    position: absolute;
     bottom: 100px;
     justify-content: center;
     flex-direction: column;
@@ -90,12 +137,13 @@ export default {
 }
 
 .wrapper {
-    position: absolute;
-    bottom: 150px;
+    background-color: #ffbd00;
     width: 100vw;
+    min-height: 100vh;
     display: flex;
-    gap: 12vw;
-    justify-content: center;
+    gap: 20px;
+    padding-top: 40px;
+    flex-direction: column;
 }
 
 @media (max-width: 1400px) {
@@ -143,6 +191,14 @@ export default {
     width: 100%;
 }
 
+.joinRoom {
+  display: flex;
+  gap: 5px;
+  @media (max-width: 1200px) {
+    flex-wrap: wrap;
+  }
+}
+
 .rounds {
     display: flex;
     justify-content: space-between;
@@ -158,7 +214,6 @@ export default {
 }
 
 .text {
-    text-align: center;
     font-size: 24px;
     font-weight: 500;
     margin-bottom: 27px;
@@ -194,11 +249,8 @@ body {
 h1.circle-heading {
     font-weight: bold;
     font-size: 44px;
-    max-width: 500px;
     color: white;
     text-align: center;
-    position: absolute;
-    top: 285px + 50px;
 }
 
 .ava {
@@ -233,25 +285,20 @@ h1.circle-heading {
 }
 
 h2.circle-subheading {
-    position: absolute;
-    top: 285px + 50px + 66px;
     font-weight: 400;
     font-size: 22px;
     color: white;
-    max-width: 450px;
     text-align: center;
-}
-
-.background-wrap {
-    background-color: #ffbd00;
-    height: 100vh;
-    width: 100vw;
 }
 
 .vs-letters {
     font-size: 44px;
     font-weight: bold;
     color: #ea425b;
+}
+
+.createRoom__link {
+  cursor: pointer;
 }
 
 @media (max-width: 1000px) {
@@ -355,11 +402,9 @@ h2.circle-subheading {
     }
     h1.circle-heading {
         font-size: 36px;
-        top: 220px;
     }
     h2.circle-subheading {
         font-size: 20px;
-        top: 220px + 50px;
         width: 345px;
     }
     .circle-middle {
