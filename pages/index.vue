@@ -75,6 +75,7 @@ export default {
       /* Listen for events: */
       this.socket
       .on('startGame', (msg, cb) => {
+        this.$router.push({path: `/game/${msg.roomID}`, params: {id: msg.roomID}})
         console.log(msg, cb);
       })
     },
