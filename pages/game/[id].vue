@@ -3,22 +3,22 @@
         <div class="game__wrapper">
             <div class="left-side">
                 <div class="left-side__content">
-                    <div class="top-block">
+                    <div class="top-block" v-if="questions.length">
                         <p class="timer">
                             <BaseIcon viewBox="0 0 51 85" width="51" height="85"
                                 ><LogoIcon></LogoIcon></BaseIcon
                             >{{ time }}
                         </p>
                         <p class="question">
-                            Вопрос {{ numberOfQuestion }}/{{
-                                amountOfQuestions
+                            Вопрос {{ step + 1 }}/{{
+                                questions.length
                             }}
                         </p>
                         <p class="desc">
-                            {{ question.description }}
+                            {{ questions[step].question }}
                         </p>
                     </div>
-                    <img class="img-question" :src="question.img" alt="img" />
+                    <img class="img-question" :src="'../assets/img/salad.png'" alt="img" />
                 </div>
             </div>
             <div class="right-side">
@@ -35,31 +35,39 @@
                         </div>
                         <div class="players">
                             <Player
-                                name="Иван"
-                                score="10"
-                                count="10"
+                                name="Вы"
+                                :score="me.score"
+                                count="0"
+                                color="green"
                                 img="../assets/img/ivan.png"
                             />
                             <p class="vs">VS</p>
                             <Player
-                                name="Иван"
-                                score="20"
-                                count="1000"
-                                color="green"
+                                name="Соперник"
+                                :score="other.score"
+                                count="0"
+                                color="red"
                                 img="../assets/img/ivan.png"
                             />
                         </div>
                     </div>
 
-                    <div class="answs">
+                    <div class="answs" v-if="questions.length">
                         <Button
-                            v-for="key in answs"
-                            :key="key.id"
+                            @click="chooseAnswer(i)"
+                            :disabled="me.selected !== null"
+                            v-for="(question, i) in questions[step].answers"
+                            :key="i"
                             :appearance="
-                                selected === key.id ? 'selected' : 'blank'
+                                me.selected === i ? 'selected' : 'blank'
                             "
                             stretched
-                            >Ответ 1</Button
+                            >
+                                <div class="answer__inner">
+                                    {{question}}
+                                    <span class="otherSelected" v-if="other.selected !== null && other.selected === i"></span>
+                                </div>
+                            </Button
                         >
                     </div>
                 </div>
@@ -72,6 +80,7 @@
 import BaseIcon from "../../components/icons/BaseIcon";
 import LogoIcon from "../../components/icons/LogoIcon.vue";
 import BurgerMenuIcon from "../../components/icons/BurgerMenuIcon.vue";
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
     components: {
@@ -81,35 +90,62 @@ export default {
     },
     data() {
         return {
-            question: {
-                img: "../assets/img/salad.png",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit? Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit?Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit?",
-            },
-            selected: 2,
+            questions: [],
             time: "01:11",
             numberOfQuestion: 1,
             amountOfQuestions: 10,
-
-            answs: [
-                {
-                    id: 1,
-                    text: "Ответ 1",
-                },
-                {
-                    id: 2,
-                    text: "Ответ 1",
-                },
-                {
-                    id: 3,
-                    text: "Ответ 1",
-                },
-                {
-                    id: 4,
-                    text: "Ответ 1",
-                },
-            ],
+            step: 0,
+            me: {
+                score: 0,
+                selected: null,
+            },
+            other: {
+                score: 0,
+                selected: null
+            }
         };
+    },
+    mounted() {
+        this.socket = this.$nuxtSocket({
+            name: 'main',
+        });
+        this.joinRoom(this.$route.params.id);
+        this.socket.on('pushGameInfo', (msg, cb) => {
+            console.log(msg);
+            this.questions = msg.questions;
+        });
+        this.socket.on('otherPlayerChoseAnswer', ({ answerID }) => {
+            this.other.selected = answerID;
+            if (this.me.selected !== null) this.nextStep();
+        })
+    },
+    methods: {
+        async joinRoom(roomID) {
+          if (roomID) {
+            let userID = uuidv4();
+            this.messageRxd = await this.socket.emitP('joinGameRoom', { userID, roomID });
+          }
+        },
+        async chooseAnswer(i) {
+            this.me.selected = i;
+            this.socket.emitP('chooseAnswer', { answerID: i, roomID: this.$route.params.id });
+            if (this.other.selected !== null) this.nextStep();
+        },
+        nextStep() {
+            if (this.step < this.questions.length - 1) {
+                if (this.me.selected === this.questions[this.step].rightAnswerID) {
+                    this.me.score += 1;
+                }
+                if (this.other.selected === this.questions[this.step].rightAnswerID) {
+                    this.other.score += 1;
+                }
+                setTimeout(() => {
+                    this.me.selected = null;
+                    this.other.selected = null;
+                    this.step++;
+                }, 2000);
+            }
+        }
     },
 };
 </script>
@@ -124,6 +160,19 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 0px 30px;
+}
+
+.answer__inner {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: center;
+}
+.otherSelected {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color:#ea425b;
 }
 .answs {
     display: flex;
