@@ -24,7 +24,7 @@
             <div class="right-side">
                 <div class="right-side__content">
                     <div class="top_block">
-                        <div class="burger-menu">
+                        <!-- <div class="burger-menu">
                             <IconButton
                                 ><BaseIcon
                                     width="78"
@@ -32,7 +32,7 @@
                                     viewBox="0 0 78 60"
                                     ><BurgerMenuIcon /></BaseIcon
                             ></IconButton>
-                        </div>
+                        </div> -->
                         <div class="players">
                             <Player
                                 name="Вы"
@@ -104,7 +104,8 @@ export default {
             },
             timerCount: 59,
             isTimerActive: false,
-            userID: null
+            userID: null,
+            otherID: null
         };
     },
     mounted() {
@@ -118,24 +119,38 @@ export default {
         this.joinRoom(this.$route.params.id);
         this.socket.on('pushGameInfo', (msg, cb) => {
             this.questions = msg.questions;
-            this.resetTimer();
+            this.otherID = msg.otherID;
+            this.step = msg.step;
+            this.playTimer();
         });
         this.socket.on('otherPlayerChoseAnswer', ({ answerID }) => {
             this.other.selected = answerID;
             if (this.me.selected !== null) this.nextStep();
-        })
+        });
+        this.socket.on('timerUpdate', ({ timer }) => {
+            if (this.isTimerActive) {
+                this.timerCount = timer;
+                if (this.timerCount < 1) {
+                    this.chooseAnswer(-1);
+                }
+            }
+        });
     },
     methods: {
         async joinRoom(roomID) {
           if (roomID) {
-            let userID = uuidv4();
             this.messageRxd = await this.socket.emitP('joinGameRoom', { userID: this.userID, roomID });
           }
         },
         async chooseAnswer(i) {
             this.me.selected = i;
             this.stopTimer();
-            this.socket.emitP('chooseAnswer', { answerID: i, roomID: this.$route.params.id });
+            this.socket.emitP('chooseAnswer', { 
+                answerID: i, 
+                roomID: this.$route.params.id, 
+                userID: this.userID,
+                otherID: this.otherID
+            });
             if (this.other.selected !== null) this.nextStep();
         },
         nextStep() {
@@ -150,32 +165,16 @@ export default {
                     this.me.selected = null;
                     this.other.selected = null;
                     this.step++;
-                    this.resetTimer();
+                    this.playTimer();
                 }, 2000);
             }
         },
         playTimer() {
             this.isTimerActive = true;
-            this.countDownTimer();
         },
         stopTimer() {
             this.isTimerActive = false;
         },
-        resetTimer() {
-            this.timerCount = 59;
-            this.playTimer();
-        },
-        countDownTimer() {
-            if (this.timerCount > 0 && this.isTimerActive) {
-                setTimeout(() => {
-                    this.timerCount--;
-                    this.countDownTimer();
-                }, 1000);
-            };
-            if (this.timerCount < 1) {
-                this.chooseAnswer(-1);
-            }
-        }
     },
 };
 </script>

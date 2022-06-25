@@ -39,7 +39,7 @@
         >
           <div class="createRoom">
             <Button @click="createLink" class="link-btn">Создать комнату</Button>
-            <div class="createRoom__link" title="Скопировать" v-if="roomID" @click="copyLink">Ссылка: {{ roomID }}</div>
+            <nuxt-link class="createRoom__link" v-if="roomID" :to="`/game/${roomID}`" @click="copyLink">Ссылка: {{ roomID }}</nuxt-link>
           </div>
         </v-col>
         <v-col
@@ -91,11 +91,11 @@ export default {
         createLink() {
           let roomID = uuidv4();
           this.roomID = roomID;
-          this.joinRoom(roomID);
+        //   this.joinRoom(roomID);
         },
         copyLink() {
           navigator.clipboard.writeText(this.roomID);
-          this.joinRoom(this.roomID);
+        //   this.joinRoom(this.roomID);
         },
         async joinRoom(roomID) {
           if (roomID) {
