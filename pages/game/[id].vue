@@ -7,7 +7,7 @@
                         <p class="timer">
                             <BaseIcon viewBox="0 0 51 85" width="51" height="85"
                                 ><LogoIcon></LogoIcon></BaseIcon
-                            >{{ time }}
+                            >00:{{ timerCount }}
                         </p>
                         <p class="question">
                             Вопрос {{ step + 1 }}/{{
@@ -91,7 +91,6 @@ export default {
     data() {
         return {
             questions: [],
-            time: "01:11",
             numberOfQuestion: 1,
             amountOfQuestions: 10,
             step: 0,
@@ -102,17 +101,24 @@ export default {
             other: {
                 score: 0,
                 selected: null
-            }
+            },
+            timerCount: 59,
+            isTimerActive: false,
+            userID: null
         };
     },
     mounted() {
+        if (!localStorage.userID) {
+            localStorage.userID = uuidv4();
+        }
+        this.userID = localStorage.userID;
         this.socket = this.$nuxtSocket({
             name: 'main',
         });
         this.joinRoom(this.$route.params.id);
         this.socket.on('pushGameInfo', (msg, cb) => {
-            console.log(msg);
             this.questions = msg.questions;
+            this.resetTimer();
         });
         this.socket.on('otherPlayerChoseAnswer', ({ answerID }) => {
             this.other.selected = answerID;
@@ -123,11 +129,12 @@ export default {
         async joinRoom(roomID) {
           if (roomID) {
             let userID = uuidv4();
-            this.messageRxd = await this.socket.emitP('joinGameRoom', { userID, roomID });
+            this.messageRxd = await this.socket.emitP('joinGameRoom', { userID: this.userID, roomID });
           }
         },
         async chooseAnswer(i) {
             this.me.selected = i;
+            this.stopTimer();
             this.socket.emitP('chooseAnswer', { answerID: i, roomID: this.$route.params.id });
             if (this.other.selected !== null) this.nextStep();
         },
@@ -143,7 +150,30 @@ export default {
                     this.me.selected = null;
                     this.other.selected = null;
                     this.step++;
+                    this.resetTimer();
                 }, 2000);
+            }
+        },
+        playTimer() {
+            this.isTimerActive = true;
+            this.countDownTimer();
+        },
+        stopTimer() {
+            this.isTimerActive = false;
+        },
+        resetTimer() {
+            this.timerCount = 59;
+            this.playTimer();
+        },
+        countDownTimer() {
+            if (this.timerCount > 0 && this.isTimerActive) {
+                setTimeout(() => {
+                    this.timerCount--;
+                    this.countDownTimer();
+                }, 1000);
+            };
+            if (this.timerCount < 1) {
+                this.chooseAnswer(-1);
             }
         }
     },

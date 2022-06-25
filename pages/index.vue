@@ -65,19 +65,24 @@ export default {
             rounds: 15,
             slider: 11,
             roomLink: null,
-            roomID: null
+            roomID: null,
+            userID: null
         };
     },
     mounted() {
-      this.socket = this.$nuxtSocket({
-        name: 'main',
-      })
-      /* Listen for events: */
-      this.socket
-      .on('startGame', (msg, cb) => {
-        this.$router.push({path: `/game/${msg.roomID}`, params: {id: msg.roomID}})
-        console.log(msg, cb);
-      })
+        if (!localStorage.userID) {
+            localStorage.userID = uuidv4();
+        }
+        this.userID = localStorage.userID;
+        this.socket = this.$nuxtSocket({
+            name: 'main',
+        });
+        /* Listen for events: */
+        this.socket
+        .on('startGame', (msg, cb) => {
+            this.$router.push({path: `/game/${msg.roomID}`, params: {id: msg.roomID}})
+            console.log(msg, cb);
+        });
     },
     methods: {
         lala() {
@@ -94,8 +99,7 @@ export default {
         },
         async joinRoom(roomID) {
           if (roomID) {
-            let userID = uuidv4();
-            this.messageRxd = await this.socket.emitP('joinGameRoom', { userID, roomID });
+            this.messageRxd = await this.socket.emitP('joinGameRoom', { userID: this.userID, roomID });
           }
         },
     },
