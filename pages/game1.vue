@@ -38,7 +38,7 @@
                                 name="Иван"
                                 score="10"
                                 count="10"
-                                img="../assets/img/ivan.png"
+                                img="../img/ivan.png"
                             />
                             <p class="vs">VS</p>
                             <Player
@@ -46,7 +46,7 @@
                                 score="20"
                                 count="1000"
                                 color="green"
-                                img="../assets/img/ivan.png"
+                                img="`../img/ivan.png"
                             />
                         </div>
                     </div>
@@ -82,7 +82,7 @@ export default {
     data() {
         return {
             question: {
-                img: "../assets/img/salad.png",
+                img: "../img/salad.png",
                 description:
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit? Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit?Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit?",
             },

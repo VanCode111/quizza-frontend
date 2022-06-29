@@ -18,7 +18,7 @@
                             {{ questions[step].question }}
                         </p>
                     </div>
-                    <img class="img-question" :src="'../assets/img/salad.png'" alt="img" />
+                    <img class="img-question" :src="'../img/salad.png'" alt="img" />
                 </div>
             </div>
             <div class="right-side">
@@ -39,7 +39,7 @@
                                 :score="me.score"
                                 count="0"
                                 color="green"
-                                img="../assets/img/ivan.png"
+                                img="../img/ivan.png"
                             />
                             <p class="vs">VS</p>
                             <Player
@@ -47,7 +47,7 @@
                                 :score="other.score"
                                 count="0"
                                 color="red"
-                                img="../assets/img/ivan.png"
+                                img="../img/ivan.png"
                             />
                         </div>
                     </div>
