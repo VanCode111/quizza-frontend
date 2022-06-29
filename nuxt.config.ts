@@ -9,8 +9,9 @@ export default defineNuxtConfig({
     // module options
     sockets: [{
       name: 'main',
-      url: 'http://localhost:3000',
-      default: true
+      default: true,
+      // url: 'http://localhost:3000',
+      url: 'https://quizza-pd-api.herokuapp.com',
     }],
     server: {
       port: 3000
@@ -29,4 +30,6 @@ export default defineNuxtConfig({
       'process.env.DEBUG': false,
     },
   },
+  ssr: false,
+  target: 'static'
 });
